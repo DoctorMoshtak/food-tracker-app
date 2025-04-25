@@ -1,0 +1,22 @@
+{
+  "users": [
+    {
+      "id": "c856f2a6-981e-42a7-a396-63cfe0bba8cd",
+      "email": "mstk900@gmail.com",
+      "salt": "f547d468ddf4b0f973ae0e52b24409db",
+      "hash": "54fbebf6c7798e7fb911a5e3c7d7d2b65bcd04ea888eb80c31dd229742a9539f"
+    }
+  ],
+  "meals": [
+    {
+      "id": "87c48cef-97b4-4b57-b7e9-119f67d01cf0",
+      "userId": "c856f2a6-981e-42a7-a396-63cfe0bba8cd",
+      "name": "Rice with Shag",
+      "calories": 700,
+      "comments": "",
+      "presetId": null,
+      "timestamp": 1745590901892
+    }
+  ],
+  "presets": []
+}

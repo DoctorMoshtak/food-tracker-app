@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Meal</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h2>Add Meal</h2>
+  <form id="add-meal-form">
+    <label>Meal Name:</label>
+    <input id="mealName" name="mealName" type="text" required>
+
+    <label>Calories:</label>
+    <input id="calories" name="calories" type="number" required>
+
+    <label>Comments:</label>
+    <textarea id="comments" name="comments"></textarea>
+
+    <label>Preset:</label>
+    <select id="preset">
+      <option value="">-- none --</option>
+    </select>
+
+    <button type="submit">Save</button>
+  </form>
+  <script src="script.js"></script>
+</body>
+</html>

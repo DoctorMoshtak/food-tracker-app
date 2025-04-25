@@ -1,0 +1,18 @@
+body {
+  font-family: sans-serif;
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+header, nav, section {
+  margin-bottom: 1.5rem;
+}
+form input, form textarea, form select, form button {
+  display: block;
+  width: 100%;
+  margin-bottom: 0.75rem;
+  padding: 0.5rem;
+}
+button {
+  cursor: pointer;
+}
