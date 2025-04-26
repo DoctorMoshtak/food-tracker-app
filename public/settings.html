@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Profile Settings</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="global-nav">
+    <nav>
+      <button onclick="goTo('/dashboard.html')">Dashboard</button>
+      <button onclick="goTo('/add_meal.html')">Meal</button>
+      <button onclick="goTo('/analytics.html')">Analytics</button>
+      <button onclick="goTo('/presets.html')">Presets</button>
+      <button onclick="goTo('/settings.html')">Settings</button>
+      <button onclick="logout()">Logout</button>
+    </nav>
+  </header>
+
+  <main class="page-container">
+    <h2>Profile Settings</h2>
+
+    <!-- 1) Change Name & Email -->
+    <form id="profile-form">
+      <label for="profile-name">Full Name</label>
+      <input id="profile-name" type="text" required>
+
+      <label for="profile-email">Email</label>
+      <input id="profile-email" type="email" required>
+
+      <button type="submit" class="primary-btn">Save Profile</button>
+    </form>
+
+    <!-- 2) Calorie Goal -->
+    <form id="calorie-form" style="margin-top:2rem;">
+      <label for="calorie-goal">Daily Calorie Goal</label>
+      <input id="calorie-goal" type="number" min="0" placeholder="e.g. 2000">
+
+      <button type="submit" class="primary-btn small">Update Goal</button>
+      <p id="goal-message" style="margin-top:0.5rem;color:green;"></p>
+    </form>
+
+    <!-- 3) Change Password -->
+    <h2 style="margin-top:3rem;">Change Password</h2>
+    <form id="password-form">
+      <label for="current-pw">Current Password</label>
+      <input id="current-pw" type="password" required>
+
+      <label for="new-pw">New Password</label>
+      <input id="new-pw" type="password" required>
+
+      <label for="confirm-pw">Confirm New Password</label>
+      <input id="confirm-pw" type="password" required>
+
+      <button type="submit" class="primary-btn small">Update Password</button>
+    </form>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

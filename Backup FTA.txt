@@ -1,0 +1,413 @@
+document.addEventListener('DOMContentLoaded', () => {
+
+  // -----------------
+  // API helper
+  // -----------------
+  async function api(path, opts = {}) {
+    const r = await fetch(path, {
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      ...opts
+    });
+    return r.json();
+  }
+
+  // -----------------
+  // Sign-Up & Log-In
+  // -----------------
+  const signupForm = document.getElementById('signup-form');
+  const loginForm  = document.getElementById('login-form');
+
+  // Sign-Up handler
+  if (signupForm) {
+    signupForm.addEventListener('submit', async e => {
+      e.preventDefault();
+      const name     = signupForm.name.value;
+      const email    = signupForm.email.value;
+      const password = signupForm.password.value;
+      const res = await api('/api/signup', {
+        method: 'POST',
+        body: JSON.stringify({ name, email, password })
+      });
+      const msg = document.getElementById('signup-message');
+      if (res.error) {
+        msg.style.color = 'crimson';
+        msg.innerText = res.error;
+      } else {
+        msg.style.color = 'green';
+        msg.innerText = 'Sign-up successful! Please log in.';
+        signupForm.reset();
+      }
+    });
+  }
+
+  // Log-In handler
+  if (loginForm) {
+    loginForm.addEventListener('submit', async e => {
+      e.preventDefault();
+      const email    = loginForm.email.value;
+      const password = loginForm.password.value;
+      const res = await api('/api/login', {
+        method: 'POST',
+        body: JSON.stringify({ email, password })
+      });
+      const msg = document.getElementById('login-message');
+      if (res.error) {
+        msg.style.color = 'crimson';
+        msg.innerText = res.error;
+      } else {
+        window.location = 'dashboard.html';
+      }
+    });
+  }
+
+  // -----------------
+  // --- Add Meal Combo page ---
+  const addForm    = document.getElementById('add-meal-form');
+  if (addForm) {
+    const presetSel  = document.getElementById('preset-selector');
+    const comboName  = document.getElementById('combo-name');
+    const itemsTbody = document.querySelector('#items-table tbody');
+    const addRowBtn  = document.getElementById('add-row');
+    const totalCal   = document.getElementById('total-cal');
+    const dateInput  = document.getElementById('mealDate');
+    const timeInput  = document.getElementById('mealTime');
+    const nowBtn     = document.getElementById('now-btn');
+    const savePreset = document.getElementById('save-preset');
+    const successMsg = document.getElementById('success-msg');
+    const congrats   = document.getElementById('congrats');
+
+    // 1) Load presets
+    api('/api/presets').then(list => {
+      list.forEach(p => {
+        const o = document.createElement('option');
+        o.value = JSON.stringify(p);
+        o.text  = p.name;
+        presetSel.add(o);
+      });
+    });
+
+    // 2) Initialize date & time
+    dateInput.value    = new Date().toISOString().split('T')[0];
+    timeInput.value    = new Date().toTimeString().slice(0,5);
+    nowBtn.onclick     = () => { timeInput.value = new Date().toTimeString().slice(0,5); };
+
+    // 3) Food-item rows & total
+    function updateTotal() {
+      let sum = 0;
+      itemsTbody.querySelectorAll('.item-cal').forEach(i => {
+        sum += Number(i.value) || 0;
+      });
+      totalCal.innerText             = sum;
+      document.getElementById('btn-cal').innerText = sum;
+      savePreset.disabled = presetSel.value &&
+        JSON.stringify(currentFormData()) === presetSel.value;
+    }
+    function currentFormData() {
+      return {
+        name: comboName.value,
+        items: Array.from(itemsTbody.querySelectorAll('tr')).map(row=>({
+          n: row.querySelector('.item-name').value,
+          c: Number(row.querySelector('.item-cal').value)||0
+        })),
+        total: Number(totalCal.innerText)
+      };
+    }
+    // Wire initial two rows
+    itemsTbody.querySelectorAll('tr').forEach(r=>{
+      r.querySelector('.item-cal').oninput = updateTotal;
+    });
+    // Add row
+    addRowBtn.onclick = () => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><input class="item-name" type="text"></td>
+        <td><input class="item-cal" type="number" min="0"></td>
+        <td><button type="button" class="remove-row">–</button></td>`;
+      itemsTbody.append(tr);
+      tr.querySelector('.item-cal').oninput = updateTotal;
+      tr.querySelector('.remove-row').onclick = () => { tr.remove(); updateTotal(); };
+    };
+
+      // 4) Preset autofill
+  presetSel.onchange = () => {
+    // If no preset chosen, nothing to do
+    if (!presetSel.value) return updateTotal();
+
+    // Parse the chosen preset, which now includes .items
+    const p = JSON.parse(presetSel.value);
+
+    // Fill combo name
+    comboName.value = p.name;
+
+    // Clear out any existing rows
+    itemsTbody.innerHTML = '';
+
+    // Recreate exactly as many rows as items in preset
+    p.items.forEach(it => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><input class="item-name" type="text" value="${it.n}"></td>
+        <td><input class="item-cal"  type="number" min="0" value="${it.c}"></td>
+        <td><button type="button" class="remove-row">–</button></td>`;
+      itemsTbody.append(tr);
+
+      // Wire up removal & total recalc
+      tr.querySelector('.item-cal').oninput = updateTotal;
+      tr.querySelector('.remove-row').onclick = () => {
+        tr.remove();
+        updateTotal();
+      };
+    });
+
+    // Recompute total and disable “save preset” toggle
+    updateTotal();
+    savePreset.disabled = true;
+  };
+
+
+    // 5) Form submit → show success panel
+    addForm.onsubmit = async e => {
+      e.preventDefault();
+      const data = currentFormData();
+      if (!data.name) data.name = data.items.map(i=>i.n).join(', ');
+      const dt = dateInput.value;
+      const tm = `${dt}T${timeInput.value||'00:00'}:00`;
+      const payload = {
+        name:       data.name,
+        calories:   data.total,
+        comments:   '',
+        combo:      data.items,
+        clientTime: tm
+      };
+
+      // Save combo
+      const res = await api('/api/meals', {
+        method: 'POST',
+        body:   JSON.stringify(payload)
+      });
+
+      // Save preset if chosen
+      if (savePreset.checked) {
+        await api('/api/presets', {
+          method: 'POST',
+          body:   JSON.stringify({
+            name:     data.name,
+            calories: data.total,
+            items:    data.items
+          })
+        });
+      }
+
+      if (res.error) {
+        alert(res.error);
+        return;
+      }
+
+      // Hide form & show success panel
+      addForm.classList.add('hidden');
+      congrats.innerText =
+        `Wow ${payload.name}, ${payload.calories} calories entered your body successfully.`;
+      successMsg.classList.remove('hidden');
+    };
+  }
+
+  // -----------------
+  // Dashboard logic
+  // -----------------
+  if (document.getElementById('fastingTimer')) {
+    api('/api/meals').then(meals => {
+      if (meals.length) {
+        const last = meals.sort((a,b)=>b.timestamp - a.timestamp)[0];
+        updateFasting(Date.now() - last.timestamp);
+        setInterval(()=>updateFasting(Date.now() - last.timestamp), 60000);
+      } else {
+        document.getElementById('fastingTimer').innerText = 'No meals logged';
+      }
+      const today = new Date().toDateString();
+      const todays = meals.filter(m=>new Date(m.timestamp).toDateString()===today);
+      document.getElementById('todaysMeals').innerText    = todays.length;
+      document.getElementById('todaysCalories').innerText = todays.reduce((s,m)=>s+m.calories,0);
+    });
+  }
+  function updateFasting(ms) {
+    const h = Math.floor(ms/3600000), m = Math.floor((ms%3600000)/60000);
+    document.getElementById('fastingTimer').innerText = `${h}h ${m}m ago`;
+  }
+
+  // -----------------
+  // Navigation & Logout
+  // -----------------
+  window.goTo = page => window.location = page;
+  window.logout = () => {
+    document.cookie = 'userId=; Max-Age=0; path=/';
+    window.location = 'index.html';
+  };
+
+  // (Presets, Analytics, Settings handlers remain unchanged…) 
+    // Presets page
+  const presetList = document.getElementById('preset-list');
+  const newForm    = document.getElementById('new-preset-form');
+  const modal      = document.getElementById('edit-modal');
+  let editingId;
+
+  // 1) Load & render presets
+  async function loadPresets() {
+    const list = await api('/api/presets');
+    presetList.innerHTML = '';
+    list.forEach(p => {
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <strong>${p.name}</strong> (${p.calories} kcal)
+        <button class="view-items">View Items</button>
+        <button class="edit-preset">Edit</button>
+        <button class="delete-preset">Delete</button>
+        <div class="items-list hidden"></div>
+      `;
+      // View items inline
+      li.querySelector('.view-items').onclick = () => {
+        const div = li.querySelector('.items-list');
+        div.innerHTML = p.items.map(it=>`<div>${it.n}: ${it.c} kcal</div>`).join('');
+        div.classList.toggle('hidden');
+      };
+      // Edit
+      li.querySelector('.edit-preset').onclick = () => {
+        editingId = p.id;
+        document.getElementById('edit-name').value = p.name;
+        document.getElementById('edit-cal').value  = p.calories;
+        modal.classList.remove('hidden');
+      };
+      // Delete
+      li.querySelector('.delete-preset').onclick = async () => {
+        await api(`/api/presets/${p.id}`, { method: 'DELETE' });
+        loadPresets();
+      };
+      presetList.append(li);
+    });
+  }
+
+  // 2) New preset
+  newForm.onsubmit = async e => {
+    e.preventDefault();
+    const name = document.getElementById('new-preset-name').value;
+    const cal  = Number(document.getElementById('new-preset-calories').value);
+    // We don’t have individual items here, so send empty[]
+    await api('/api/presets', {
+      method: 'POST',
+      body: JSON.stringify({ name, calories: cal, items: [] })
+    });
+    newForm.reset();
+    loadPresets();
+  };
+
+  // 3) Edit modal
+  document.getElementById('save-edit').onclick = async () => {
+    const name = document.getElementById('edit-name').value;
+    const cal  = Number(document.getElementById('edit-cal').value);
+    await api(`/api/presets/${editingId}`, {
+      method: 'PUT',
+      body: JSON.stringify({ name, calories: cal, items: [] })
+    });
+    modal.classList.add('hidden');
+    loadPresets();
+  };
+  document.getElementById('cancel-edit').onclick = () => {
+    modal.classList.add('hidden');
+  };
+
+  // Initialize when on presets.html
+  if (presetList) loadPresets();
+
+    // Settings page
+  const profForm = document.getElementById('profile-form');
+  const pwForm   = document.getElementById('password-form');
+  if (profForm) {
+    // Load current
+    api('/api/me').then(u => {
+      document.getElementById('profile-name').value  = u.name;
+      document.getElementById('profile-email').value = u.email;
+    });
+    profForm.onsubmit = async e => {
+      e.preventDefault();
+      const name  = document.getElementById('profile-name').value;
+      const email = document.getElementById('profile-email').value;
+      await api('/api/me', { method: 'PUT', body: JSON.stringify({ name, email }) });
+      alert('Profile updated.');
+    };
+  }
+  if (pwForm) {
+    pwForm.onsubmit = async e => {
+      e.preventDefault();
+      const current = document.getElementById('current-pw').value;
+      const next    = document.getElementById('new-pw').value;
+      const confirm = document.getElementById('confirm-pw').value;
+      if (next !== confirm) return alert('Passwords do not match.');
+      await api('/api/me/password', { method: 'PUT', body: JSON.stringify({ current, next }) });
+      alert('Password changed.');
+    };
+  }
+    // Food Items page
+  const itemList = document.getElementById('food-item-list');
+  const itemModal= document.getElementById('item-modal');
+  const addItemBtn = document.getElementById('add-item-btn');
+  let editItemId;
+
+  // Load & render
+  async function loadItems() {
+    const list = await api('/api/food-items');
+    itemList.innerHTML = '';
+    list.forEach(i => {
+      const li = document.createElement('li');
+      li.innerHTML = `
+        ${i.name} — ${i.calories} kcal
+        <button class="edit-item">Edit</button>
+        <button class="delete-item">Delete</button>
+      `;
+      li.querySelector('.edit-item').onclick = () => openItemModal(i);
+      li.querySelector('.delete-item').onclick = async () => {
+        await api(`/api/food-items/${i.id}`, { method:'DELETE' });
+        loadItems();
+      };
+      itemList.append(li);
+    });
+  }
+
+  // Modal functions
+  function openItemModal(item={}) {
+    editItemId = item.id || null;
+    document.getElementById('item-modal-title').innerText = item.id ? 'Edit Item' : 'Add Item';
+    document.getElementById('item-name').value = item.name || '';
+    document.getElementById('item-cal').value  = item.calories || '';
+    itemModal.classList.remove('hidden');
+  }
+  document.getElementById('cancel-item').onclick = () => itemModal.classList.add('hidden');
+  document.getElementById('save-item').onclick = async () => {
+    const name = document.getElementById('item-name').value.trim();
+    const cal  = Number(document.getElementById('item-cal').value);
+    const method = editItemId ? 'PUT' : 'POST';
+    const url    = editItemId ? `/api/food-items/${editItemId}` : '/api/food-items';
+    await api(url, { method, body: JSON.stringify({ name, calories: cal }) });
+    itemModal.classList.add('hidden');
+    loadItems();
+  };
+
+  // Wire up
+  if (addItemBtn) {
+    addItemBtn.onclick = () => openItemModal();
+    loadItems();
+  }
+  // Analytics page
+  if (document.getElementById('statDaily')) {
+    api('/api/stats').then(stats => {
+      console.log('Stats →', stats);
+      document.getElementById('statDaily').innerText   = stats.daily;
+      document.getElementById('statWeekly').innerText  = stats.weekly;
+      document.getElementById('statMonthly').innerText = stats.monthly;
+      document.getElementById('statAvg7').innerText    = stats.avg7;
+      document.getElementById('statAvg30').innerText   = stats.avg30;
+    }).catch(err => {
+      console.error('Failed to fetch stats:', err);
+    });
+  }
+
+});

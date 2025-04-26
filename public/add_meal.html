@@ -2,28 +2,100 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Add Meal</title>
+  <title>Add Meal Combo</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h2>Add Meal</h2>
-  <form id="add-meal-form">
-    <label>Meal Name:</label>
-    <input id="mealName" name="mealName" type="text" required>
+  <header class="global-nav">
+    <nav>
+      <button onclick="goTo('/dashboard.html')">Dashboard</button>
+      <button onclick="goTo('/add_meal.html')">Meal</button>
+      <button onclick="goTo('/analytics.html')">Analytics</button>
+      <button onclick="goTo('/presets.html')">Presets</button>
+      <button onclick="goTo('/settings.html')">Settings</button>
+      <button onclick="logout()">Logout</button>
+    </nav>
+  </header>
 
-    <label>Calories:</label>
-    <input id="calories" name="calories" type="number" required>
+  <main class="page-container">
+    <h2>Log a Meal Combo</h2>
 
-    <label>Comments:</label>
-    <textarea id="comments" name="comments"></textarea>
+    <!-- Disable autocomplete on the form -->
+    <form id="add-meal-form" autocomplete="off">
+      <!-- 1) Preset Selector -->
+      <label>Preset:</label>
+      <select id="preset-selector">
+        <option value="">-- none --</option>
+      </select>
 
-    <label>Preset:</label>
-    <select id="preset">
-      <option value="">-- none --</option>
-    </select>
+      <!-- 2) Combo Name (optional) -->
+      <label>Combo Name:</label>
+      <input id="combo-name" name="comboName" type="text" placeholder="Optional">
 
-    <button type="submit">Save</button>
-  </form>
+      <!-- 3) Food Items Table -->
+      <label>Food Items:</label>
+      <table id="items-table">
+        <thead>
+          <tr><th>Item Name</th><th>Calories</th><th></th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><input class="item-name" type="text"></td>
+            <td><input class="item-cal" type="number" min="0"></td>
+            <td><button type="button" class="remove-row" disabled>–</button></td>
+          </tr>
+          <tr>
+            <td><input class="item-name" type="text"></td>
+            <td><input class="item-cal" type="number" min="0"></td>
+            <td><button type="button" class="remove-row" disabled>–</button></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td><button type="button" id="add-row">Add another item</button></td>
+            <td>Total: <span id="total-cal">0</span> kcal</td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <!-- 4) Date & Time -->
+      <div class="time-entry">
+        <div>
+          <label for="mealDate">Date:</label>
+          <input
+            id="mealDate"
+            name="mealDate"
+            type="date"
+            autocomplete="off"
+            required>
+
+        </div>
+        <div>
+          <label for="mealTime">Time:</label>
+          <input id="mealTime" name="mealTime" type="time" required>
+          <button type="button" id="now-btn">Now</button>
+        </div>
+      </div>
+
+      <!-- 5) Save as preset toggle -->
+      <label><input type="checkbox" id="save-preset" disabled> Save this combo as preset</label>
+
+      <!-- Submit -->
+      <button type="submit" id="save-combo">
+        Add <span id="btn-cal">0</span> In Your Body
+      </button>
+    </form>
+
+    <!-- Success message + mood buttons -->
+    <div id="success-msg" class="hidden">
+      <p id="congrats"></p>
+      <button onclick="goTo('dashboard.html')">😢 CRY</button>
+      <button onclick="goTo('dashboard.html')">😔 SAD</button>
+      <button onclick="goTo('dashboard.html')">😊 HAPPY</button>
+    </div>
+  </main>
+
   <script src="script.js"></script>
 </body>
 </html>

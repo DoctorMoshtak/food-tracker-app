@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>All Meal Logs</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="global-nav">
+    <nav>
+      <button onclick="goTo('/dashboard.html')">Dashboard</button>
+      <button onclick="goTo('/add_meal.html')">Meal</button>
+      <button onclick="goTo('/analytics.html')">Analytics</button>
+      <button onclick="goTo('/presets.html')">Presets</button>
+      <button onclick="goTo('/settings.html')">Settings</button>
+      <button onclick="logout()">Logout</button>
+    </nav>
+  </header>
+
+  <main class="page-container">
+    <h2>All Meal Logs</h2>
+
+    <!-- Edit Meal Modal -->
+    <div id="edit-meal-modal" class="hidden">
+      <div class="modal-content">
+        <h3>Edit Meal</h3>
+        <label for="modal-name">Name</label>
+        <input id="modal-name" type="text">
+        <label for="modal-cal">Calories</label>
+        <input id="modal-cal" type="number">
+        <label for="modal-cmt">Comments</label>
+        <textarea id="modal-cmt"></textarea>
+        <label for="modal-dt">Date & Time</label>
+        <input id="modal-dt" type="datetime-local">
+        <button id="modal-save">Save</button>
+        <button id="modal-cancel">Cancel</button>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Date</th>
+          <th scope="col">Time</th>
+          <th scope="col">Since</th>
+          <th scope="col">Meal</th>
+          <th scope="col">Calories</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="logs-body">
+        <!-- Rows will be injected by script.js -->
+      </tbody>
+    </table>
+
+    <nav id="logs-pager">
+      <button id="prev-page">← Prev</button>
+      <span id="page-info"></span>
+      <button id="next-page">Next →</button>
+    </nav>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

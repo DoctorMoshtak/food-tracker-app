@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Food Items</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="global-nav">
+        <nav>
+          <button onclick="goTo('/dashboard.html')">Dashboard</button>
+          <button onclick="goTo('/add_meal.html')">Meal</button>
+          <button onclick="goTo('/analytics.html')">Analytics</button>
+          <button onclick="goTo('/presets.html')">Presets</button>
+          <button onclick="goTo('/settings.html')">Settings</button>
+          <button onclick="logout()">Logout</button>
+        </nav>
+      </header>
+
+  <main>
+    <h2>Food Items</h2>
+
+    <!-- New/Edit Food Item Modal -->
+    <div id="item-modal" class="hidden">
+      <div class="modal-content">
+        <h3 id="item-modal-title">Add/Edit Item</h3>
+        <input id="item-name" placeholder="Item Name" required>
+        <input id="item-cal"  type="number" placeholder="Calories" required>
+        <button id="save-item">Save</button>
+        <button id="cancel-item">Cancel</button>
+      </div>
+    </div>
+
+    <!-- Add new item button -->
+    <button id="add-item-btn">Add Food Item</button>
+
+    <!-- List of items -->
+    <ul id="food-item-list"></ul>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

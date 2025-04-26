@@ -2,9 +2,38 @@
   "users": [
     {
       "id": "c856f2a6-981e-42a7-a396-63cfe0bba8cd",
+      "name": "mstk900",
       "email": "mstk900@gmail.com",
       "salt": "f547d468ddf4b0f973ae0e52b24409db",
       "hash": "54fbebf6c7798e7fb911a5e3c7d7d2b65bcd04ea888eb80c31dd229742a9539f"
+    },
+    {
+      "id": "a1ddaf23-73bc-4579-b43a-695002ade233",
+      "name": "test2",
+      "email": "tst2@2.com",
+      "salt": "460e2f2b6c327d2f163e38687e954f46",
+      "hash": "f336ca28fe6aaf4c3fbb87f6e2eacfc4784fcb1eee639aeab5ddfc085b98ef46"
+    },
+    {
+      "id": "c63b2c67-95bc-4748-a53f-3c93c82ab8d9",
+      "name": "test3",
+      "email": "test3@3.com",
+      "salt": "6034e8b3aa843b1d6bb05adc324eb9aa",
+      "hash": "8b59b737f3695d6742b8a2960bb25b74431bf84d2bb26da28ed78e9e03cc8add"
+    },
+    {
+      "id": "61dd557f-ce12-44ff-9dda-5d9c0d6bc9ff",
+      "name": "Tester5",
+      "email": "Tester5@Tester5.com",
+      "salt": "3ca710dd096ec93a4e5c068f81f1fe69",
+      "hash": "df4bc07826d3dac886ab658e663993da1f44fcb2a421f91f7590df8b3a3274a7"
+    },
+    {
+      "id": "3b38d30c-d818-4f7d-bed3-f65e02dc9afe",
+      "name": "tester6@tester6.com",
+      "email": "tester6@tester6.com",
+      "salt": "1e7f73d64b762059a83d7374006bb7de",
+      "hash": "e2c3cb32b7c419e180b65e1477168c63d773f534c5d0cff878ef4eb7df07d11c"
     }
   ],
   "meals": [
@@ -16,7 +45,201 @@
       "comments": "",
       "presetId": null,
       "timestamp": 1745590901892
+    },
+    {
+      "id": "91592268-d643-4950-b241-3246dd24c0e6",
+      "userId": "c856f2a6-981e-42a7-a396-63cfe0bba8cd",
+      "name": "Night meal",
+      "calories": 700,
+      "comments": "Ice cream and rice",
+      "presetId": null,
+      "timestamp": 1745603354523
+    },
+    {
+      "id": "08432613-9fe9-4f8a-aa15-2619b2b66a96",
+      "userId": "c856f2a6-981e-42a7-a396-63cfe0bba8cd",
+      "name": "Test, Items (946 kcal)",
+      "calories": 946,
+      "comments": "",
+      "presetId": null,
+      "timestamp": 1745649480000
+    },
+    {
+      "id": "12f1bfae-980f-4d66-a870-7a19fb61ff9c",
+      "userId": "c856f2a6-981e-42a7-a396-63cfe0bba8cd",
+      "name": "I will, test (501 kcal)",
+      "calories": 501,
+      "comments": "",
+      "presetId": null,
+      "timestamp": 1745650980000
+    },
+    {
+      "id": "dc61149f-3d12-4e63-aa10-eb6aa9e4e692",
+      "userId": "c856f2a6-981e-42a7-a396-63cfe0bba8cd",
+      "name": "Test , 3",
+      "calories": 300,
+      "comments": "",
+      "presetId": null,
+      "timestamp": 1745654760000
+    },
+    {
+      "id": "3bcf5d5d-0d9f-45d9-8127-9680a98120e9",
+      "userId": "c856f2a6-981e-42a7-a396-63cfe0bba8cd",
+      "name": "Test , 3",
+      "calories": 800,
+      "comments": "",
+      "presetId": null,
+      "timestamp": 1745654820000
+    },
+    {
+      "id": "75527d8f-7520-464a-ac5e-f540fac80051",
+      "userId": "c856f2a6-981e-42a7-a396-63cfe0bba8cd",
+      "name": "Test , 3",
+      "calories": 344,
+      "comments": "",
+      "presetId": null,
+      "timestamp": 1745654880000
+    },
+    {
+      "id": "151d225b-b8f4-4ce4-a5bc-385022bcf3db",
+      "userId": "c856f2a6-981e-42a7-a396-63cfe0bba8cd",
+      "name": "test 5, edited",
+      "calories": 150,
+      "comments": "",
+      "presetId": null,
+      "timestamp": 1745657160000
+    },
+    {
+      "id": "bd8d5871-4c96-45be-a745-ea8d7bfe93be",
+      "userId": "c856f2a6-981e-42a7-a396-63cfe0bba8cd",
+      "name": "test  day 2, ",
+      "calories": 400,
+      "comments": "",
+      "presetId": null,
+      "timestamp": 1745606640000
+    },
+    {
+      "id": "566c46d5-17a6-4bf8-b956-4fab969744e5",
+      "userId": "c856f2a6-981e-42a7-a396-63cfe0bba8cd",
+      "name": "Test , 3",
+      "calories": 300,
+      "comments": "",
+      "presetId": null,
+      "timestamp": 1745606640000
+    },
+    {
+      "id": "89f8866c-76a5-4274-a3c8-f92957b4349b",
+      "userId": "c856f2a6-981e-42a7-a396-63cfe0bba8cd",
+      "name": "Test , 3",
+      "calories": 344,
+      "comments": "",
+      "presetId": null,
+      "timestamp": 1745608860000
+    },
+    {
+      "id": "de7261fd-de23-4337-b101-8a6cf0e85c8e",
+      "userId": "c856f2a6-981e-42a7-a396-63cfe0bba8cd",
+      "name": "Test , 3",
+      "calories": 344,
+      "comments": "",
+      "presetId": null,
+      "timestamp": 1745696340000
+    },
+    {
+      "id": "ce2707ca-f645-4fde-b38e-b92b579596cb",
+      "userId": "c856f2a6-981e-42a7-a396-63cfe0bba8cd",
+      "name": "test6, ",
+      "calories": 200,
+      "comments": "",
+      "presetId": null,
+      "timestamp": 1745698560000
+    },
+    {
+      "id": "78478988-5e4f-48dc-9362-dda695f1defa",
+      "userId": "3b38d30c-d818-4f7d-bed3-f65e02dc9afe",
+      "name": "test 1, ",
+      "calories": 199,
+      "comments": "",
+      "presetId": null,
+      "timestamp": 1745621820000
+    },
+    {
+      "id": "19a5fa3d-18b8-46b4-bca0-46e941342874",
+      "userId": "3b38d30c-d818-4f7d-bed3-f65e02dc9afe",
+      "name": "test 5, ",
+      "calories": 150,
+      "comments": "",
+      "presetId": null,
+      "timestamp": 1745708340000
     }
   ],
-  "presets": []
+  "presets": [
+    {
+      "id": "d9f6b9d9-252e-48ca-ab9d-bf20208d3147",
+      "userId": "c856f2a6-981e-42a7-a396-63cfe0bba8cd",
+      "name": "Test , 3",
+      "calories": 300,
+      "items": [
+        {
+          "n": "Test ",
+          "c": 100
+        },
+        {
+          "n": "3",
+          "c": 200
+        }
+      ]
+    },
+    {
+      "id": "b09d667f-9f09-4a82-b754-d5858a2be2b6",
+      "userId": "c856f2a6-981e-42a7-a396-63cfe0bba8cd",
+      "name": "Test , 3",
+      "calories": 344,
+      "items": [
+        {
+          "n": "Test ",
+          "c": 100
+        },
+        {
+          "n": "3",
+          "c": 200
+        },
+        {
+          "n": "4",
+          "c": 44
+        }
+      ]
+    },
+    {
+      "id": "a85913a8-e442-4003-8593-bc32df7d4a74",
+      "userId": "c856f2a6-981e-42a7-a396-63cfe0bba8cd",
+      "name": "Combo test",
+      "calories": 500,
+      "items": []
+    }
+  ],
+  "settings": [
+    {
+      "userId": "c856f2a6-981e-42a7-a396-63cfe0bba8cd",
+      "reminderInterval": 0,
+      "calorieGoal": 1500
+    },
+    {
+      "userId": "a1ddaf23-73bc-4579-b43a-695002ade233",
+      "reminderInterval": 4,
+      "calorieGoal": 2000
+    },
+    {
+      "userId": "c63b2c67-95bc-4748-a53f-3c93c82ab8d9",
+      "reminderInterval": 4,
+      "calorieGoal": 2000
+    }
+  ],
+  "foodItems": [
+    {
+      "id": "ec7e68e9-1c81-4b63-aa65-03dc59ef280a",
+      "name": "White rice",
+      "calories": 400
+    }
+  ]
 }

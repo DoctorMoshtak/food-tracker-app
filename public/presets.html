@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Manage Presets</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="global-nav">
+    <nav>
+      <button onclick="goTo('/dashboard.html')">Dashboard</button>
+      <button onclick="goTo('/add_meal.html')">Meal</button>
+      <button onclick="goTo('/analytics.html')">Analytics</button>
+      <button onclick="goTo('/presets.html')">Presets</button>
+      <button onclick="goTo('/settings.html')">Settings</button>
+      <button onclick="logout()">Logout</button>
+    </nav>
+  </header>
+  <main>
+    <h2>Presets</h2>
+
+    <!-- New Preset Form -->
+    <form id="new-preset-form">
+      <input id="new-preset-name" placeholder="Combo Name" required>
+      <input id="new-preset-calories" type="number" placeholder="Total Calories" required>
+      <button type="submit">Add Preset</button>
+    </form>
+
+    <!-- Preset List -->
+    <ul id="preset-list"></ul>
+  </main>
+
+  <!-- Edit Modal -->
+  <div id="edit-modal" class="hidden">
+    <div class="modal-content">
+      <h3>Edit Preset</h3>
+      <input id="edit-name" placeholder="Combo Name">
+      <input id="edit-cal" type="number" placeholder="Total Calories">
+      <button id="save-edit">Save</button>
+      <button id="cancel-edit">Cancel</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

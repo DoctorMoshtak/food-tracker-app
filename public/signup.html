@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Food Tracker – Log In</title>
+  <title>Food Tracker – Sign Up</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -16,38 +16,48 @@
       <button onclick="logout()">Logout</button>
     </nav>
   </header>
-  
-  <main class="page-container">
-    <h1>Food Tracker</h1>
 
-    <!-- Log In Form -->
-    <form id="login-form" autocomplete="on">
-      <label for="login-email">Email</label>
+  <main class="page-container">
+    <h1>Create Your Account</h1>
+
+    <form id="signup-form" autocomplete="on">
+      <label for="signup-name">Full Name</label>
       <input
-        id="login-email"
+        id="signup-name"
+        type="text"
+        name="name"
+        placeholder="Your full name"
+        required
+        autocomplete="name"
+      >
+
+      <label for="signup-email">Email</label>
+      <input
+        id="signup-email"
         type="email"
         name="email"
-        placeholder="Email"
+        placeholder="Email address"
         required
         autocomplete="username"
       >
-      <label for="login-password">Password</label>
+
+      <label for="signup-password">Password</label>
       <input
-        id="login-password"
+        id="signup-password"
         type="password"
         name="password"
-        placeholder="Password"
+        placeholder="Create a password"
         required
-        autocomplete="current-password"
+        autocomplete="new-password"
       >
-      <button type="submit">Log In</button>
-      <p class="message" id="login-message"></p>
+
+      <button type="submit">Sign Up</button>
+      <p class="message" id="signup-message"></p>
     </form>
 
-    <!-- Link to Sign Up -->
     <p class="switch-text">
-      Not a member yet?
-      <a href="/signup.html" class="switch-link">Sign up now</a>
+      Already have an account?
+      <a href="/index.html" class="switch-link">Log in here</a>
     </p>
   </main>
 
