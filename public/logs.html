@@ -52,6 +52,39 @@
         <!-- Rows will be injected by script.js -->
       </tbody>
     </table>
+    <!-- EXPORT CSV -->
+    <button id="export-csv" class="nav-btn" style="margin-bottom:1rem;">
+      Export CSV
+    </button>
+
+    <!-- EXPORT OPTIONS MODAL -->
+    <div id="export-modal" class="hidden">
+      <div class="modal-content">
+        <h3>Export Meal Logs</h3>
+
+        <form id="export-form">
+          <fieldset>
+            <legend>Fields to include:</legend>
+            <label><input type="checkbox" name="fields" value="date" checked> Date</label>
+            <label><input type="checkbox" name="fields" value="time" checked> Time</label>
+            <label><input type="checkbox" name="fields" value="name" checked> Meal Name</label>
+            <label><input type="checkbox" name="fields" value="calories" checked> Calories</label>
+          </fieldset>
+
+          <fieldset style="margin-top:1rem;">
+            <legend>Range:</legend>
+            <label><input type="radio" name="range" value="7" checked> Last 7 days</label>
+            <label><input type="radio" name="range" value="30"> Last 30 days</label>
+            <label><input type="radio" name="range" value="all"> All</label>
+          </fieldset>
+
+          <div style="margin-top:1rem; text-align:right;">
+            <button type="button" id="export-cancel">Cancel</button>
+            <button type="submit" class="primary-btn small">Download CSV</button>
+          </div>
+        </form>
+      </div>
+    </div>
 
     <nav id="logs-pager">
       <button id="prev-page">← Prev</button>

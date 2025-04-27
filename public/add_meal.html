@@ -20,16 +20,15 @@
   <main class="page-container">
     <h2>Log a Meal Combo</h2>
 
-    <!-- Disable autocomplete on the form -->
     <form id="add-meal-form" autocomplete="off">
       <!-- 1) Preset Selector -->
-      <label>Preset:</label>
+      <label for="preset-selector">Preset:</label>
       <select id="preset-selector">
         <option value="">-- none --</option>
       </select>
 
       <!-- 2) Combo Name (optional) -->
-      <label>Combo Name:</label>
+      <label for="combo-name">Combo Name:</label>
       <input id="combo-name" name="comboName" type="text" placeholder="Optional">
 
       <!-- 3) Food Items Table -->
@@ -69,7 +68,6 @@
             type="date"
             autocomplete="off"
             required>
-
         </div>
         <div>
           <label for="mealTime">Time:</label>
@@ -79,7 +77,10 @@
       </div>
 
       <!-- 5) Save as preset toggle -->
-      <label><input type="checkbox" id="save-preset" disabled> Save this combo as preset</label>
+      <label>
+        <input type="checkbox" id="save-preset" disabled>
+        Save this combo as preset
+      </label>
 
       <!-- Submit -->
       <button type="submit" id="save-combo">
@@ -96,6 +97,15 @@
     </div>
   </main>
 
+  <script>
+    // On load, let JS fill in the local “today” date
+    document.addEventListener('DOMContentLoaded', () => {
+      const dateInput = document.getElementById('mealDate');
+      if (dateInput) {
+        dateInput.valueAsDate = new Date();
+      }
+    });
+  </script>
   <script src="script.js"></script>
 </body>
 </html>

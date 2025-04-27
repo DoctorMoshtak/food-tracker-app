@@ -171,6 +171,15 @@
       "comments": "",
       "presetId": null,
       "timestamp": 1745708340000
+    },
+    {
+      "id": "dd30895d-1601-4331-a917-a17234b9e2f6",
+      "userId": "c856f2a6-981e-42a7-a396-63cfe0bba8cd",
+      "name": "test, ",
+      "calories": 1000,
+      "comments": "",
+      "presetId": null,
+      "timestamp": 1745712240000
     }
   ],
   "presets": [
@@ -233,6 +242,11 @@
       "userId": "c63b2c67-95bc-4748-a53f-3c93c82ab8d9",
       "reminderInterval": 4,
       "calorieGoal": 2000
+    },
+    {
+      "userId": "3b38d30c-d818-4f7d-bed3-f65e02dc9afe",
+      "reminderInterval": 4,
+      "calorieGoal": 1500
     }
   ],
   "foodItems": [

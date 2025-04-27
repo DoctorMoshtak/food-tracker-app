@@ -273,9 +273,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // -----------------
   const logsBody = document.getElementById('logs-body');
   if (logsBody) {
+    let   allMeals  = [];
+    
     const perPage  = 20;
     let   pageIndex = 0;
-    let   allMeals  = [];
+    
 
     const prevBtn  = document.getElementById('prev-page');
     const nextBtn  = document.getElementById('next-page');
@@ -320,7 +322,71 @@ document.addEventListener('DOMContentLoaded', () => {
       prevBtn.disabled = pageIndex === 0;
       nextBtn.disabled = pageIndex + 1 >= totalPages;
     }
+    // Fetch meals into our outer-scope array
+    api('/api/meals')
+      .then(meals => {
+        allMeals = meals.sort((a,b) => b.timestamp - a.timestamp);
+        renderPage();
+      })
+      .catch(console.error);
 
+    // ── EXPORT CSV ──
+    const exportBtn    = document.getElementById('export-csv');
+    const exportModal  = document.getElementById('export-modal');
+    const exportForm   = document.getElementById('export-form');
+    const exportCancel = document.getElementById('export-cancel');
+
+    if (exportBtn) {
+      exportBtn.addEventListener('click', () => exportModal.classList.remove('hidden'));
+      exportCancel.addEventListener('click', () => exportModal.classList.add('hidden'));
+
+      exportForm.addEventListener('submit', e => {
+        e.preventDefault();
+
+        // 1) read options
+        const fd     = new FormData(exportForm);
+        const fields = fd.getAll('fields');
+        const range  = fd.get('range');
+
+        // 2) filter data by range
+        let data = allMeals.slice();
+        if (range !== 'all') {
+          const cutoff = Date.now() - Number(range)*24*3600*1000;
+          data = data.filter(m => m.timestamp >= cutoff);
+        }
+
+        // 3) build CSV rows
+        const header = fields.map(f => ({ date:'Date', time:'Time', name:'Meal', calories:'Calories' })[f]);
+        const rows   = [ header ];
+        data.forEach(m => {
+          const dt = new Date(m.timestamp);
+          rows.push(fields.map(f => {
+            switch(f) {
+              case 'date':     return dt.toLocaleDateString();
+              case 'time':     return dt.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+              case 'name':     return `"${m.name.replace(/"/g,'""')}"`;
+              case 'calories': return m.calories;
+            }
+          }));
+        });
+
+        // 4) stringify
+        const csv = rows.map(r => r.join(',')).join('\r\n');
+
+        // 5) download
+        const blob = new Blob([csv], {type:'text/csv'});
+        const url  = URL.createObjectURL(blob);
+        const a    = document.createElement('a');
+        a.href     = url;
+        a.download = `meal-logs-${range==='all'?'all':`last-${range}d`}.csv`;
+        a.click();
+        URL.revokeObjectURL(url);
+
+        // 6) close
+        exportModal.classList.add('hidden');
+      });
+    }
+  
     const modal    = document.getElementById('edit-meal-modal');
     const nameIn   = document.getElementById('modal-name');
     const calIn    = document.getElementById('modal-cal');
@@ -361,6 +427,71 @@ document.addEventListener('DOMContentLoaded', () => {
     api('/api/meals')
       .then(meals => { allMeals = meals.sort((a,b) => b.timestamp - a.timestamp); renderPage(); })
       .catch(console.error);
+  }
+  // — Export CSV —
+  const exportBtn    = document.getElementById('export-csv');
+  const exportModal  = document.getElementById('export-modal');
+  const exportForm   = document.getElementById('export-form');
+  const exportCancel = document.getElementById('export-cancel');
+
+  if (exportBtn && exportModal) {
+    // show modal
+    exportBtn.onclick = () => exportModal.classList.remove('hidden');
+    // hide modal
+    exportCancel.onclick = () => exportModal.classList.add('hidden');
+
+    exportForm.onsubmit = e => {
+      e.preventDefault();
+
+      // 1) read options
+      const form = new FormData(exportForm);
+      const fields = form.getAll('fields');           // ["date","time",...]
+      const range  = form.get('range');               // "7","30" or "all"
+
+      // 2) filter your allMeals array (you already fetched it)
+      let data = allMeals.slice(); // copy
+      if (range !== 'all') {
+        const cutoff = Date.now() - Number(range)*24*3600*1000;
+        data = data.filter(m => m.timestamp >= cutoff);
+      }
+
+      // 3) build CSV rows
+      const header = fields.map(f => {
+        if (f==='date')     return 'Date';
+        if (f==='time')     return 'Time';
+        if (f==='name')     return 'Meal';
+        if (f==='calories') return 'Calories';
+      });
+      const rows = [ header ];
+
+      data.forEach(m => {
+        const dt = new Date(m.timestamp);
+        const row = fields.map(f => {
+          switch (f) {
+            case 'date':     return dt.toLocaleDateString();
+            case 'time':     return dt.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+            case 'name':     return `"${m.name.replace(/"/g,'""')}"`; // escape quotes
+            case 'calories': return m.calories;
+          }
+        });
+        rows.push(row);
+      });
+
+      // 4) turn into CSV text
+      const csvContent = rows.map(r => r.join(',')).join('\r\n');
+
+      // 5) download via a Blob
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      a.href     = url;
+      a.download = `meal-logs-${range === 'all' ? 'all' : `last-${range}d`}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+
+      // 6) close modal
+      exportModal.classList.add('hidden');
+    };
   }
 
   // -----------------

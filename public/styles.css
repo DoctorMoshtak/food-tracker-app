@@ -1,17 +1,16 @@
 /* public/styles.css - Modern Energetic & Balanced Palette */
-
 :root {
-  --color-primary: #20B2AA;       /* LightSeaGreen */
-  --color-secondary: #F5F5DC;     /* Beige */
-  --color-accent1: #FF7F50;       /* Coral */
-  --color-accent2: #191970;       /* MidnightBlue */
-  --text-dark: #333333;
-  --text-light: #ffffff;
-  --border-radius: 8px;
-  --transition: 0.3s ease;
+  --color-primary:    #20B2AA;    /* LightSeaGreen */
+  --color-secondary:  #F5F5DC;    /* Beige */
+  --color-accent1:    #FF7F50;    /* Coral */
+  --color-accent2:    #191970;    /* MidnightBlue */
+  --text-dark:        #333333;
+  --text-light:       #ffffff;
+  --border-radius:    8px;
+  --transition:       0.3s ease;
 }
 
-/* Global Reset */
+/* ─ Global Reset ─ */
 * {
   margin: 0;
   padding: 0;
@@ -19,38 +18,29 @@
 }
 body {
   font-family: sans-serif;
-  background-color: var(--color-secondary);
+  background: var(--color-secondary);
   color: var(--text-dark);
   line-height: 1.6;
-
-  /* Center and constrain width */
   max-width: 600px;
-  margin: 4rem auto 2rem;  /* 4rem top for nav + auto left/right + 2rem bottom */
-
+  margin: 4rem auto 2rem;
   padding: 1rem;
 }
 
-/* Sticky Header */
+/* ─ Sticky Header ─ */
 .global-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
+  position: fixed; top: 0; left: 0;
   width: 100%;
-  background-color: var(--color-primary);
+  background: var(--color-primary);
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   z-index: 1000;
 }
 .global-nav nav {
-  max-width: 1024px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
+  max-width: 1024px; margin: 0 auto;
+  display: flex; justify-content: space-around; align-items: center;
   padding: 1rem;
 }
 .global-nav button, .global-nav a {
-  background: none;
-  border: none;
+  background: none; border: none;
   color: var(--text-light);
   font-size: 1rem;
   padding: 0.5rem 1rem;
@@ -60,33 +50,35 @@ body {
   text-decoration: none;
 }
 .global-nav button:hover, .global-nav a:hover {
-  background-color: rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.2);
 }
 
-/* Main Content Container */
-main {
-  max-width: 1200px;  /* roomier on large screens */
-  width: 95%;         /* still fluid on small screens */
+/* ─ Main Content Container ─ */
+main, .page-container {
+  max-width: 1200px;
+  width: 95%;
   margin: 2rem auto;
   background: var(--text-light);
   border-radius: var(--border-radius);
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   padding: 2rem;
 }
-/* Ensure tables fit within the container and scroll on overflow */
+
+/* Ensure horizontal scroll on tables */
 main table {
   width: 100%;
   display: block;
   overflow-x: auto;
-  -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
+  -webkit-overflow-scrolling: touch;
 }
 
+/* ─ Typography ─ */
 h1, h2, h3 {
   color: var(--color-accent2);
   margin-bottom: 1rem;
 }
 
-/* Forms */
+/* ─ Forms ─ */
 form {
   display: flex;
   flex-direction: column;
@@ -97,24 +89,20 @@ form label {
   font-weight: 600;
   color: var(--color-accent2);
 }
-form input,
-form textarea,
-form select {
+form input, form textarea, form select {
   padding: 0.75rem;
   border: 1px solid #ddd;
   border-radius: var(--border-radius);
   font-size: 1rem;
   transition: border-color var(--transition);
 }
-form input:focus,
-form textarea:focus,
-form select:focus {
+form input:focus, form textarea:focus, form select:focus {
   outline: none;
   border-color: var(--color-primary);
 }
 form button {
   padding: 0.75rem;
-  background-color: var(--color-primary);
+  background: var(--color-primary);
   color: var(--text-light);
   border: none;
   border-radius: var(--border-radius);
@@ -123,15 +111,10 @@ form button {
   transition: background-color var(--transition);
 }
 form button:hover {
-  background-color: var(--color-accent1);
+  background: var(--color-accent1);
 }
 
-/* Buttons */
-button {
-  cursor: pointer;
-}
-
-/* Nav-btn (legacy) */
+/* ─ Legacy Nav-btn ─ */
 .nav-btn {
   display: inline-block;
   padding: 0.5rem 1rem;
@@ -146,22 +129,17 @@ button {
   background: var(--color-accent1);
 }
 
-/* Utility Classes */
+/* ─ Utility ─ */
 .hidden { display: none; }
 
-/* Time Entry */
+/* ─ Time Entry ─ */
 .time-entry {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+  display: flex; align-items: center; gap: 1rem;
 }
 .time-entry > div {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  display: flex; align-items: center; gap: 0.5rem;
 }
 .time-entry label {
-  margin-right: 0.5rem;
   font-weight: 600;
 }
 .time-entry input[type="date"],
@@ -173,101 +151,58 @@ button {
   border-radius: var(--border-radius);
 }
 
-/* Preset & Combo Name Full-Width */
+/* ─ Preset & Combo Name ─ */
 #preset-selector,
-#combo-name {
-  width: 100%;
-}
+#combo-name { width: 100%; }
 
-/* Items Table Styling */
+/* ─ Items Table ─ */
 #items-table {
   width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
-  margin-bottom: 1rem;
+  margin: 1rem 0;
+  overflow: hidden;
 }
-#items-table th,
-#items-table td {
+#items-table th, #items-table td {
   border: 1px solid #eee;
   padding: 0.75rem 1rem;
 }
 #items-table th {
-  background-color: var(--color-primary);
+  background: var(--color-primary);
   color: var(--text-light);
   text-align: left;
 }
 #items-table tr:nth-child(odd) {
-  background-color: #f9f9f9;
+  background: #f9f9f9;
 }
 #items-table tr:hover {
-  background-color: var(--color-secondary);
+  background: var(--color-secondary);
 }
+/* Column widths */
+#items-table th:nth-child(1), #items-table td:nth-child(1) { width: 70%; }
+#items-table th:nth-child(2), #items-table td:nth-child(2) { width: 25%; }
+#items-table th:nth-child(3), #items-table td:nth-child(3) { width: 5%; }
+#items-table input { width: 100%; box-sizing: border-box; }
 #items-table tfoot button {
   padding: 0.5rem 1rem;
   background: var(--color-primary);
   color: var(--text-light);
-  border: none;
-  border-radius: var(--border-radius);
+  border: none; border-radius: var(--border-radius);
   cursor: pointer;
   transition: background-color var(--transition);
 }
 #items-table tfoot button:hover {
   background: var(--color-accent1);
 }
-/* 1) Make the table fill its container, with fixed-layout columns */
-#items-table {
-  width: 100%;
-  table-layout: fixed;    /* force our %-based widths to stick */
-  margin: 1rem 0;         /* give it some breathing room */
-  overflow: hidden;       /* hide any overhang */
-}
 
-/* 2) Set the column widths by nth-child */
-/*    1st column = Item Name ~70% */
-/*    2nd column = Calories  ~25% */
-/*    3rd column = Remove button ~5% */
-#items-table th:nth-child(1),
-#items-table td:nth-child(1) {
-  width: 70%;
-}
-#items-table th:nth-child(2),
-#items-table td:nth-child(2) {
-  width: 25%;
-}
-#items-table th:nth-child(3),
-#items-table td:nth-child(3) {
-  width: 5%;
-}
-
-/* 3) Ensure the inputs inside obey the column widths */
-#items-table input {
-  width: 100%;
-  box-sizing: border-box;
-}
-
-/* 4) On very small screens, allow horizontal scroll instead of squashing */
-@media (max-width: 600px) {
-  .page-container #items-table {
-    display: block;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-}
-
-/* Now Button */
+/* ─ Buttons ─ */
 #now-btn {
-  padding: 0.5rem 1rem;
-  background: var(--color-accent1);
-  color: var(--text-light);
-  border: none;
+  padding: 0.5rem 1rem; background: var(--color-accent1);
+  color: var(--text-light); border: none;
   border-radius: var(--border-radius);
-  cursor: pointer;
-  transition: background-color var(--transition);
+  cursor: pointer; transition: background-color var(--transition);
 }
-#now-btn:hover {
-  background: var(--color-accent2);
-}
-
-/* Save Combo Button */
+#now-btn:hover { background: var(--color-accent2); }
 #save-combo {
   background: var(--color-primary);
   color: var(--text-light);
@@ -277,11 +212,9 @@ button {
   padding: 0.75rem;
   transition: background-color var(--transition);
 }
-#save-combo:hover {
-  background: var(--color-accent1);
-}
+#save-combo:hover { background: var(--color-accent1); }
 
-/* Success Panel */
+/* ─ Success Panel ─ */
 #success-msg {
   text-align: center;
   margin-top: 2rem;
@@ -301,7 +234,7 @@ button {
   background: var(--color-accent2);
 }
 
-/* Modern Table Styling */
+/* ─ Modern Table Styling ─ */
 table {
   width: 100%;
   border-collapse: separate;
@@ -313,7 +246,7 @@ table {
   background: var(--text-light);
 }
 thead {
-  background-color: var(--color-primary);
+  background: var(--color-primary);
 }
 thead th {
   padding: 0.75rem 1rem;
@@ -323,10 +256,10 @@ thead th {
   text-align: left;
 }
 tbody tr:nth-child(odd) {
-  background-color: #f9f9f9;
+  background: #f9f9f9;
 }
 tbody tr:hover {
-  background-color: var(--color-secondary);
+  background: var(--color-secondary);
 }
 tbody td {
   padding: 0.75rem 1rem;
@@ -337,18 +270,11 @@ tbody tr:last-child td {
   border-bottom: none;
 }
 
-/* Responsive Tables */
+/* ─ Responsive Tables ─ */
 @media (max-width: 600px) {
-  main {
-    width: 95%;
-    padding: 1rem;
-  }
-  table, thead, tbody, th, td, tr {
-    display: block;
-  }
-  thead {
-    display: none;
-  }
+  main { width: 95%; padding: 1rem; }
+  table, thead, tbody, th, td, tr { display: block; }
+  thead { display: none; }
   tr {
     margin-bottom: 1rem;
     background: var(--text-light);
@@ -368,17 +294,8 @@ tbody tr:last-child td {
     color: var(--color-accent2);
   }
 }
-/* Logs table header styling */
-.page-container table thead th {
-  background-color: var(--color-primary);
-  color: var(--text-light);
-  text-align: center;
-  padding: 0.75rem 1rem;
-  font-weight: 600;
-  font-size: 0.95rem;
-}
 
-/* Center the pager */
+/* ─ Logs Pager ─ */
 #logs-pager {
   display: flex;
   justify-content: center;
@@ -398,53 +315,34 @@ tbody tr:last-child td {
 #logs-pager button:hover {
   background: var(--color-accent1);
 }
-/* ────────────────────────────────────────────────────────── */
-/* Edit‐Meal Modal Styling                                  */
-/* ────────────────────────────────────────────────────────── */
 
-/* A semi-opaque backdrop to dim the page when the modal is open */
+/* ─ Edit-Meal Modal ─ */
 #edit-meal-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: fixed; top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.4);
+  display: flex; align-items: center; justify-content: center;
   z-index: 2000;
 }
-
-/* Hide by default */
 #edit-meal-modal.hidden {
   display: none;
 }
-
-/* The actual white panel */
 #edit-meal-modal .modal-content {
-  background: var(--text-light);      /* your off-white */
+  background: var(--text-light);
   padding: 1.5rem;
   border-radius: var(--border-radius);
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  width: 90%;
-  max-width: 480px;
-  font-family: inherit;
+  width: 90%; max-width: 480px;
 }
-
-/* Modal heading */
 #edit-meal-modal h3 {
   margin-top: 0;
   color: var(--color-primary);
   font-size: 1.25rem;
 }
-
-/* Label + input rows arranged in a grid */
 #edit-meal-modal label {
   display: block;
   margin-top: 1rem;
   font-weight: 600;
-  color: var(--text-dark);
 }
 #edit-meal-modal input,
 #edit-meal-modal textarea {
@@ -452,19 +350,11 @@ tbody tr:last-child td {
   margin-top: 0.5rem;
   padding: 0.5rem;
   border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 0.95rem;
-  color: var(--text-dark);
-  background: #fff;
+  border-radius: var(--border-radius);
 }
-
-/* Make the Date/Time input look consistent */
 #edit-meal-modal input[type="datetime-local"] {
-  /* some browsers give it their own padding—normalize */
   padding: 0.4rem;
 }
-
-/* Button row */
 #edit-meal-modal button {
   margin-top: 1.25rem;
   margin-right: 0.5rem;
@@ -475,8 +365,6 @@ tbody tr:last-child td {
   cursor: pointer;
   transition: background-color 0.2s;
 }
-
-/* Save = primary accent */
 #modal-save {
   background: var(--color-primary);
   color: var(--text-light);
@@ -484,8 +372,6 @@ tbody tr:last-child td {
 #modal-save:hover {
   background: var(--color-accent1);
 }
-
-/* Cancel = secondary (neutral) */
 #modal-cancel {
   background: #ddd;
   color: var(--text-dark);
@@ -493,112 +379,51 @@ tbody tr:last-child td {
 #modal-cancel:hover {
   background: #ccc;
 }
-.stats-panel {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  gap: 2rem;
-  opacity: 0;
-  animation: fadeIn 1s forwards;
+#export-modal {
+  position: fixed; top:0; left:0; width:100vw; height:100vh;
+  background: rgba(0,0,0,0.4);
+  display: flex; align-items:center; justify-content:center;
+  z-index:2000;
+}
+#export-modal.hidden { display:none; }
+#export-modal .modal-content {
+  background: white; padding:1.5rem; border-radius:8px;
+  max-width:400px; width:90%;
 }
 
-.stat-block {
-  text-align: center;
-}
-
-/* Titles */
-.stat-title {
-  font-size: 0.9rem;
-  color: #005061; /* deep navy */
-  margin-bottom: 0.5rem;
-}
-
-/* Values */
-.stat-value {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #008080; /* teal */
-}
-
-/* Emoji */
-.stat-emoji {
-  font-size: 1.5rem;
-  margin-top: 0.3rem;
-}
-
-/* Pills */
-.pill-container {
-  display: flex;
-  gap: 0.3rem;
-}
-.pill {
-  width: 12px; height: 12px;
-  border: 2px solid #20B2AA; /* lightSeaGreen */
-  border-radius: 50%;
-  transition: background 0.5s;
-}
-.pill.filled {
-  background: #FF7F50; /* coral */
-}
-
-/* Ring */
-#calorieRing {
-  transform: rotate(-90deg);
-  overflow: visible;
-}
-.ring-bg {
-  fill: none;
-  stroke: #e0e0e0;
-  stroke-width: 12;
-}
-.ring-fg {
-  fill: none;
-  stroke: #20B2AA; /* start teal */
-  stroke-width: 12;
-  stroke-dasharray: 339;  /* 2π·r = ~339 */
-  stroke-dashoffset: 339;
-  transition: stroke-dashoffset 1s, stroke 1s;
-}
-.ring-text {
-  font-size: 0.8rem;
-  fill: #005061;
-}
-.ring-text.today { font-size: 1rem; font-weight: bold; }
-.ring-text.goal  { font-size: 0.7rem; fill: #333; }
-.ring-text.rem   { font-size: 0.7rem; fill: #FF7F50; }
-
-/* Fade-in */
-@keyframes fadeIn {
-  to { opacity: 1; }
-}
-/* Stats Panel Layout */
+/* ─ Stats Panel & Animations ─ */
 .stats-panel {
   display: flex;
   justify-content: space-around;
   align-items: center;
   padding: 1rem;
   margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeIn 1s forwards;
 }
 .stat-block {
-  text-align: center;
   flex: 1;
+  text-align: center;
 }
 .stat-block h3 {
   font-size: 1rem;
-  color: #005f5f;
+  color: var(--color-accent2);
   margin-bottom: 0.5rem;
 }
 .stat-value {
   font-size: 2rem;
   font-weight: bold;
-  color: #008080;
+  color: var(--color-primary);
 }
 .stat-emoji {
   font-size: 1.5rem;
   margin-top: 0.25rem;
 }
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
 
-/* Pills for Meals Today */
+/* ─ Pills ─ */
 .pills {
   display: flex;
   justify-content: center;
@@ -606,57 +431,159 @@ tbody tr:last-child td {
   margin: 0.5rem 0;
 }
 .pill {
-  width: 12px;
-  height: 12px;
-  border: 2px solid #20B2AA;
+  width: 12px; height: 12px;
+  border: 2px solid var(--color-primary);
   border-radius: 50%;
   background: transparent;
   transition: background 0.3s;
 }
 .pill.filled {
-  background: #20B2AA;
+  background: var(--color-accent1);
 }
 
-/* Calories Ring */
-.ring { overflow: visible; }
-.ring-bg { fill: none; stroke: #eee; }
-.ring-fg { fill: none; stroke: #20B2AA; transition: stroke-dashoffset 1s, stroke 1s; transform: rotate(-90deg); transform-origin: center; }
+/* ─ Calorie Ring ─ */
+/* using existing classes exactly as in dashboard.html */
+.ring-bg {
+  fill: none;
+  stroke: #eee;
+  stroke-width: 12;
+}
+.ring-fg {
+  fill: none;
+  stroke: var(--color-primary);
+  stroke-width: 12;
+  stroke-dasharray: 339;
+  stroke-dashoffset: 339;
+  transition: stroke-dashoffset 1s, stroke 1s;
+  transform: rotate(-90deg);
+  transform-origin: center;
+}
 .ring-text {
   font-family: sans-serif;
   font-size: 0.9rem;
-  fill: #333;
+  fill: var(--text-dark);
 }
-.pills {
-  display: flex;
-  justify-content: center;
-  gap: 0.25rem;
-  margin: 0.5rem 0;
+.ring-text.today {
+  font-size: 1rem;
+  font-weight: bold;
 }
-.pill {
-  width: 12px;
-  height: 12px;
-  border: 2px solid #20B2AA;
-  border-radius: 50%;
-  background: transparent;
-  transition: background 0.3s;
+.ring-text.goal {
+  fill: #555;
 }
-.pill.filled {
-  background: #20B2AA;
+.ring-text.rem {
+  fill: var(--color-accent1);
 }
-.pills {
-  display: flex;
-  justify-content: center;
-  gap: 0.25rem;
-  margin: 0.5rem 0;
+/* ── Analytics Section Styling ─────────────────────────────────────────── */
+
+/* Wrap each metric in a little “pill” with a subtle border and background */
+#analytics-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
 }
-.pill {
-  width: 12px;
-  height: 12px;
-  border: 2px solid #20B2AA;  /* your teal */
-  border-radius: 50%;
-  background: transparent;
-  transition: background 0.3s;
+#analytics-stats .stat {
+  background: var(--color-secondary);
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+  padding: 0.75rem 1rem;
+  text-align: center;
+  transition: transform var(--transition), box-shadow var(--transition);
 }
-.pill.filled {
-  background: #20B2AA;
+#analytics-stats .stat:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
+
+/* Metric label */
+#analytics-stats .stat-label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--color-accent2);
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+/* Metric value */
+#analytics-stats .stat-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--color-primary);
+}
+
+/* Section title spacing */
+#analytics-stats + p {
+  margin-top: 2rem;
+  text-align: right;
+  font-size: 0.9rem;
+  color: #666;
+}
+/* ── Analytics Card Color & Hover ────────────────────────────────────────── */
+#analytics-stats .stat {
+  background-color: #ffffff;              /* white cards */
+  border: 1px solid #e0e0e0;              /* subtle light border */
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+#analytics-stats .stat:hover {
+  background-color: var(--color-accent1); /* coral on hover */
+  color: var(--text-light);                /* make text white */
+  transform: translateY(-3px) scale(1.02);
+}
+
+#analytics-stats .stat-label,
+#analytics-stats .stat-value {
+  transition: color 0.3s ease;
+}
+
+/* When the parent .stat is hovered, ensure label/value invert color */
+#analytics-stats .stat:hover .stat-label,
+#analytics-stats .stat:hover .stat-value {
+  color: var(--text-light);
+}
+/* ── Interactive Calorie Ring Labels ───────────────────────────────── */
+
+// First, give each text element its own class if you haven’t already:
+//   <text class="ring-text today" …>  
+//   <text class="ring-text goal"  …>  
+//   <text class="ring-text rem"   …>
+
+.ring-text.today   { fill: var(--color-primary);   transition: fill .3s, font-size .3s; cursor: pointer; }
+.ring-text.goal    { fill: var(--color-accent2);   transition: fill .3s, font-size .3s; cursor: pointer; }
+.ring-text.rem     { fill: var(--color-accent1);   transition: fill .3s, font-size .3s; cursor: pointer; }
+
+/* On hover, bump up the font and brighten the color */
+.ring-text.today:hover {
+  font-size: 1.3em; 
+  fill:    var(--color-primary);
+  text-shadow: 0 0 4px rgba(0,0,0,0.2);
+}
+.ring-text.goal:hover {
+  font-size: 0.9em; 
+  fill:    var(--color-accent2);
+  text-shadow: 0 0 4px rgba(0,0,0,0.2);
+}
+.ring-text.rem:hover {
+  font-size: 0.9em; 
+  fill:    var(--color-accent1);
+  text-shadow: 0 0 4px rgba(0,0,0,0.2);
+}
+
+/* And when you hover the entire ring, subtly highlight all three for legibility */
+.calorie-ring:hover .ring-text {
+  opacity: 1;
+  fill-opacity: 1;
+}
+
+/* If you want a little legend dot next to each number */
+.ring-text:before {
+  content: "●";
+  font-size: 0.8em;
+  margin-right: 0.2em;
+  vertical-align: middle;
+}
+.ring-text.today:before { color: var(--color-primary); }
+.ring-text.goal:before  { color: var(--color-accent2); }
+.ring-text.rem:before   { color: var(--color-accent1); }
+

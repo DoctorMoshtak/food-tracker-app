@@ -16,16 +16,32 @@
       <button onclick="logout()">Logout</button>
     </nav>
   </header>
-
-  <main>
+  <section id="analytics">
     <h2>Analytics</h2>
-
-    <div>Daily calories:   <span id="statDaily">0</span></div>
-    <div>Weekly calories:  <span id="statWeekly">0</span></div>
-    <div>Monthly calories: <span id="statMonthly">0</span></div>
-    <div>7-day avg:        <span id="statAvg7">0</span></div>
-    <div>30-day avg:       <span id="statAvg30">0</span></div>
-  </main>
+    <div id="analytics-stats">
+      <div class="stat">
+        <span class="stat-label">Daily</span>
+        <span class="stat-value" id="statDaily">150</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Weekly</span>
+        <span class="stat-value" id="statWeekly">349</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Monthly</span>
+        <span class="stat-value" id="statMonthly">349</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">7-Day Avg</span>
+        <span class="stat-value" id="statAvg7">49.9</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">30-Day Avg</span>
+        <span class="stat-value" id="statAvg30">11.6</span>
+      </div>
+    </div>
+  </section>
+  
 
   <script src="script.js"></script>
 </body>
