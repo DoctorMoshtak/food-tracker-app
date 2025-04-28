@@ -587,3 +587,32 @@ tbody tr:last-child td {
 .ring-text.goal:before  { color: var(--color-accent2); }
 .ring-text.rem:before   { color: var(--color-accent1); }
 
+/* Make the global nav horizontally scrollable & shrink on very small */
+@media (max-width: 600px) {
+  .global-nav nav {
+    padding: 0.5rem;               /* less vertical space */
+    overflow-x: auto;              /* allow side-scrolling */
+    white-space: nowrap;           /* keep buttons in one line */
+  }
+  .global-nav button {
+    flex: 0 0 auto;
+    padding: 0.4rem 0.6rem;         /* smaller tappable buttons */
+    font-size: 0.9rem;
+  }
+
+  /* Main container: full‐width with tighter padding */
+  main.page-container {
+    width: 100%;
+    margin: 3rem 0 1rem;           /* account for fixed nav */
+    padding: 1rem;
+  }
+
+  /* Simplify labels & inputs stacking */
+  .time-entry {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .time-entry > div {
+    width: 100%;
+  }
+}
