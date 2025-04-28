@@ -55,7 +55,7 @@ body {
 
 /* ─ Main Content Container ─ */
 main, .page-container {
-  max-width: 1200px;
+  max-width: 1800px;
   width: 95%;
   margin: 2rem auto;
   background: var(--text-light);
@@ -63,7 +63,34 @@ main, .page-container {
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   padding: 2rem;
 }
+/* 2) For anything inside that might overflow (tables, forms), wrap it in a scrollable wrapper: */
+.scrollable {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* smooth on iOS */
+}
 
+/* 3) On very small screens, ensure the container fills fully and inner content scrolls */
+@media (max-width: 600px) {
+  main.page-container {
+    max-width: none;
+    width: 100%;
+    margin: 3rem 0 1rem;
+    padding: 1rem; 
+  }
+}
+.scrollable {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* smooth on iOS */
+}
+
+/* optional: give a little visual cue */
+.scrollable::-webkit-scrollbar {
+  height: 6px;
+}
+.scrollable::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.2);
+  border-radius: 3px;
+}
 /* Ensure horizontal scroll on tables */
 main table {
   width: 100%;
@@ -271,7 +298,7 @@ tbody tr:last-child td {
 }
 
 /* ─ Responsive Tables ─ */
-@media (max-width: 600px) {
+@media (max-width: 300px) {
   main { width: 95%; padding: 1rem; }
   table, thead, tbody, th, td, tr { display: block; }
   thead { display: none; }
