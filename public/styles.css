@@ -433,7 +433,7 @@ tbody tr:last-child td {
   text-align: center;
 }
 .stat-block h3 {
-  font-size: 1rem;
+  font-size: 1.5rem;
   color: var(--color-accent2);
   margin-bottom: 0.5rem;
 }
@@ -458,7 +458,7 @@ tbody tr:last-child td {
   margin: 0.5rem 0;
 }
 .pill {
-  width: 12px; height: 12px;
+  width: 15px; height: 15px;
   border: 2px solid var(--color-primary);
   border-radius: 50%;
   background: transparent;
@@ -491,8 +491,8 @@ tbody tr:last-child td {
   fill: var(--text-dark);
 }
 .ring-text.today {
-  font-size: 1rem;
-  font-weight: bold;
+  font-size: 1.2rem;
+  font-weight: light;
 }
 .ring-text.goal {
   fill: #555;
@@ -582,17 +582,17 @@ tbody tr:last-child td {
 
 /* On hover, bump up the font and brighten the color */
 .ring-text.today:hover {
-  font-size: 1.3em; 
+  font-size: 1.6em; 
   fill:    var(--color-primary);
   text-shadow: 0 0 4px rgba(0,0,0,0.2);
 }
 .ring-text.goal:hover {
-  font-size: 0.9em; 
+  font-size: 1.3em; 
   fill:    var(--color-accent2);
   text-shadow: 0 0 4px rgba(0,0,0,0.2);
 }
 .ring-text.rem:hover {
-  font-size: 0.9em; 
+  font-size: 1.3em; 
   fill:    var(--color-accent1);
   text-shadow: 0 0 4px rgba(0,0,0,0.2);
 }
@@ -643,3 +643,44 @@ tbody tr:last-child td {
     width: 100%;
   }
 }
+/* Style the “More…” link as a button */
+#more-logs {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--color-primary);
+  color: var(--text-light);
+  text-decoration: none;
+  border-radius: var(--border-radius);
+  font-weight: bold;
+  transition: background-color var(--transition);
+}
+
+#more-logs:hover {
+  background-color: var(--color-accent1);
+  color: var(--text-light);
+}
+/* ────────────────────────────────────────────────────────── */
+/* bump up the fasting timer font */
+#fastingTime {
+  font-size: 3rem;       /* was 2rem in .stat-value */
+  line-height: 1.1;
+}
+
+/* make all three stat-blocks share the same top alignment */
+.stats-panel {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;  /* instead of center */
+}
+
+/* ensure each block centers its contents but starts at top */
+.stat-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+/* tighten up spacing between the three columns */
+.stats-panel { gap: 2rem; }

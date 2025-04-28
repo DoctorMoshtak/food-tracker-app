@@ -22,11 +22,44 @@
     <h2>Presets</h2>
 
     <!-- New Preset Form -->
-    <form id="new-preset-form">
-      <input id="new-preset-name" placeholder="Combo Name" required>
-      <input id="new-preset-calories" type="number" placeholder="Total Calories" required>
-      <button type="submit">Add Preset</button>
+    <form id="new-preset-form" autocomplete="off">
+      <label>Preset Name:</label>
+      <input id="new-preset-name" type="text" placeholder="e.g. Salad Combo" required>
+    
+      <label>Food Items:</label>
+      <table id="preset-items-table">
+        <thead>
+          <tr><th>Item Name</th><th>Calories</th><th></th></tr>
+        </thead>
+        <tbody>
+          <!-- start with two empty rows -->
+          <tr>
+            <td><input class="item-name" type="text"></td>
+            <td><input class="item-cal" type="number" min="0"></td>
+            <td><button type="button" class="remove-row" disabled>–</button></td>
+          </tr>
+          <tr>
+            <td><input class="item-name" type="text"></td>
+            <td><input class="item-cal" type="number" min="0"></td>
+            <td><button type="button" class="remove-row" disabled>–</button></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>
+              <button type="button" id="preset-add-row">Add another item</button>
+            </td>
+            <td>
+              Total: <span id="preset-total-cal">0</span> kcal
+            </td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+    
+      <button type="submit">Save Preset</button>
     </form>
+    
 
     <!-- Preset List -->
     <ul id="preset-list"></ul>

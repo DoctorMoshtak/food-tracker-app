@@ -84,6 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const dateInput = document.getElementById('mealDate');
     const timeInput = document.getElementById('mealTime');
     const nowBtn = document.getElementById('now-btn');
+    const savePreset  = document.getElementById('save-preset'); 
 
     // Load presets
     api('/api/presets').then(list => {
@@ -162,6 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const clientTime = `${dateInput.value}T${timeInput.value}:00`;
       const payload = { name: nameVal, calories: calSum, comments: '', combo: items, clientTime };
       const res = await api('/api/meals', { method: 'POST', body: JSON.stringify(payload) });
+      if (savePreset && savePreset.checked) {await api('/api/presets', {method: 'POST',body: JSON.stringify({name:     nameVal,calories: calSum,items:    items})});}
       if (res.error) return alert(res.error);
       window.location.href = '/dashboard.html';
     });
@@ -177,19 +179,31 @@ document.addEventListener('DOMContentLoaded', () => {
       // Fasting
       const lastTs = meals.length ? Math.max(...meals.map(m=>m.timestamp)) : Date.now();
       const fastEl = document.getElementById('fastingTime');
+      const fastingEmojiEl = document.getElementById('fastingEmoji');
       function tick() {
         const diff = Date.now() - lastTs;
         const h = Math.floor(diff/3600000), m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
         fastEl.textContent = `${h}h ${m}m ${s}s`;
+        if      (h < 2)   fastingEmojiEl.textContent = '🥱';  // under 2 h
+        else if (h < 5)   fastingEmojiEl.textContent = '🙂';  // 2–5 h
+        else if (h < 8)   fastingEmojiEl.textContent = '😌';  // 5–8 h
+        else              fastingEmojiEl.textContent = '🥳';  // 8 h+
       }
       tick(); setInterval(tick,1000);
       // Meals today
       const today = new Date().toDateString();
       const todays = meals.filter(m=>new Date(m.timestamp).toDateString()===today);
-      document.getElementById('todaysMeals').textContent = todays.length;
+      const mealCount = todays.length;
+      document.getElementById('todaysMeals').textContent = mealCount;
+      const mealsEmj = document.getElementById('mealsEmoji');
+      if      (mealCount === 0)       mealsEmj.textContent = '😢';
+      else if (mealCount <= 2)        mealsEmj.textContent = '🥳';
+      else if (mealCount <= 5)        mealsEmj.textContent = '😬';
+      else                             mealsEmj.textContent = '😡';      
       // Calories
       const calToday = todays.reduce((a,b)=>a+b.calories,0);
       const goal = settings.calorieGoal || 0;
+      const remaining    = goal - calToday;
       document.getElementById('todaysCalories').textContent = calToday;
       document.getElementById('dailyGoal').textContent = goal;
       document.getElementById('remainingCalc').textContent = goal - calToday;
@@ -202,6 +216,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const dash = 339*(1-pct);
       const fg = document.querySelector('.ring-fg');
       fg.style.strokeDashoffset=dash;
+      const calEmj = document.getElementById('calEmoji');
+      const remPct = goal ? (remaining / goal) : 1;
+      if      (remPct >=  0.2)        calEmj.textContent = '🥳';
+      else if (remPct >=  0)          calEmj.textContent = '🙂';
+      else if (remPct >= -0.2)        calEmj.textContent = '😬';
+      else                             calEmj.textContent = '😡';      
       // colors...
     }).catch(console.error);
   }
@@ -497,11 +517,15 @@ document.addEventListener('DOMContentLoaded', () => {
   // -----------------
   // Presets page
   // -----------------
+  // Presets page
+  // -----------------
   const presetList = document.getElementById('preset-list');
   const newForm    = document.getElementById('new-preset-form');
   const editModal  = document.getElementById('edit-modal');
   let   presetEditId;
+
   if (presetList) {
+    // 1) Load & render all presets
     async function loadPresets() {
       const list = await api('/api/presets');
       presetList.innerHTML = '';
@@ -513,35 +537,120 @@ document.addEventListener('DOMContentLoaded', () => {
           <button class="edit-preset">Edit</button>
           <button class="delete-preset">Delete</button>
           <div class="items-list hidden"></div>`;
+        // toggle item list
         li.querySelector('.view-items').onclick = () => {
           const div = li.querySelector('.items-list');
-          div.innerHTML = p.items.map(it => `<div>${it.n}: ${it.c} kcal</div>`).join('');
+          div.innerHTML = p.items
+            .map(it => `<div>${it.n}: ${it.c} kcal</div>`)
+            .join('');
           div.classList.toggle('hidden');
         };
+        // open edit modal
         li.querySelector('.edit-preset').onclick = () => {
           presetEditId = p.id;
           document.getElementById('edit-name').value = p.name;
           document.getElementById('edit-cal').value  = p.calories;
+          // (you can extend modal to show items if desired)
           editModal.classList.remove('hidden');
         };
-        li.querySelector('.delete-preset').onclick = async () => { await api(`/api/presets/${p.id}`, { method: 'DELETE' }); loadPresets(); };
+        // delete preset
+        li.querySelector('.delete-preset').onclick = async () => {
+          await api(`/api/presets/${p.id}`, { method: 'DELETE' });
+          loadPresets();
+        };
         presetList.append(li);
       });
     }
+
+    // 2) Wire up our “items” table inside the new‐preset form
+    const presetItemsTbody = document.querySelector('#preset-items-table tbody');
+    const presetAddRowBtn  = document.getElementById('preset-add-row');
+    const presetTotalCal   = document.getElementById('preset-total-cal');
+
+    function updatePresetTotal() {
+      let sum = 0;
+      presetItemsTbody
+        .querySelectorAll('.item-cal')
+        .forEach(i => sum += Number(i.value) || 0);
+      presetTotalCal.innerText = sum;
+    }
+
+    // existing two rows
+    presetItemsTbody.querySelectorAll('tr').forEach(row => {
+      row.querySelector('.item-cal')
+        .addEventListener('input', updatePresetTotal);
+    });
+
+    // add‐row button
+    presetAddRowBtn.onclick = () => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><input class="item-name" type="text"></td>
+        <td><input class="item-cal"  type="number" min="0"></td>
+        <td><button type="button" class="remove-row">–</button></td>`;
+      presetItemsTbody.append(tr);
+      tr.querySelector('.item-cal')
+        .addEventListener('input', updatePresetTotal);
+      tr.querySelector('.remove-row')
+        .addEventListener('click', () => { tr.remove(); updatePresetTotal(); });
+    };
+
+    // 3) Handle form submission
     newForm.onsubmit = async e => {
       e.preventDefault();
-      const name = document.getElementById('new-preset-name').value;
-      const cal  = Number(document.getElementById('new-preset-calories').value);
-      await api('/api/presets', { method: 'POST', body: JSON.stringify({ name, calories: cal, items: [] }) });
+      const name  = document.getElementById('new-preset-name').value.trim();
+      const items = Array.from(presetItemsTbody.querySelectorAll('tr'))
+        .map(row => ({
+          n: row.querySelector('.item-name').value.trim(),
+          c: Number(row.querySelector('.item-cal').value) || 0
+        }))
+        .filter(it => it.n || it.c > 0);
+      const calories = items.reduce((sum,it) => sum + it.c, 0);
+
+      await api('/api/presets', {
+        method: 'POST',
+        body: JSON.stringify({ name, calories, items })
+      });
+
+      // reset form back to two empty rows
       newForm.reset();
+      presetItemsTbody.innerHTML = `
+        <tr>
+          <td><input class="item-name" type="text"></td>
+          <td><input class="item-cal"  type="number" min="0"></td>
+          <td><button type="button" class="remove-row" disabled>–</button></td>
+        </tr>
+        <tr>
+          <td><input class="item-name" type="text"></td>
+          <td><input class="item-cal"  type="number" min="0"></td>
+          <td><button type="button" class="remove-row" disabled>–</button></td>
+        </tr>`;
+      updatePresetTotal();
       loadPresets();
     };
-    document.getElementById('save-edit').onclick   = async () => { const name = document.getElementById('edit-name').value; const cal = Number(document.getElementById('edit-cal').value); await api(`/api/presets/${presetEditId}`, { method: 'PUT', body: JSON.stringify({ name, calories: cal, items: [] }) }); editModal.classList.add('hidden'); loadPresets(); };
-    document.getElementById('cancel-edit').onclick = () => editModal.classList.add('hidden');
+
+    // 4) Keep your existing edit‐modal save/cancel handlers:
+    document.getElementById('save-edit').onclick   = async () => {
+      const name = document.getElementById('edit-name').value;
+      const cal  = Number(document.getElementById('edit-cal').value);
+      await api(`/api/presets/${presetEditId}`, {
+        method: 'PUT',
+        body: JSON.stringify({ name, calories: cal, items: [] })
+      });
+      editModal.classList.add('hidden');
+      loadPresets();
+    };
+    document.getElementById('cancel-edit').onclick = () =>
+      editModal.classList.add('hidden');
+
+    // 5) Initial load
     loadPresets();
   }
 
   // -----------------
+  // Settings page
+  // -----------------
+
   // Settings page
   // -----------------
   const profForm    = document.getElementById('profile-form');
