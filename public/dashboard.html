@@ -14,7 +14,6 @@
       <button onclick="goTo('/analytics.html')">Analytics</button>
       <button onclick="goTo('/presets.html')">Presets</button>
       <button onclick="goTo('/settings.html')">Settings</button>
-      <button onclick="goTo('/food_items.html')">Foods</button>
       <button onclick="logout()">Logout</button>
     </nav>
   </header>
@@ -28,8 +27,9 @@
         <div id="fastingTime" class="stat-value">--h --m --s</div>
         <div id="fastingEmoji" class="stat-emoji">🙂</div>
       </div>
-    
+    </section>
       <!-- Meals Today -->
+    <section id="stats" class="stats-panel">
       <div class="stat-block">
         <h3>Meals Today</h3>
         <!-- count fallback for no-pills -->
